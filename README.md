@@ -9,3 +9,5 @@ css - bootstrap
 front - html
 
 controller - javascript
+
+python run.py

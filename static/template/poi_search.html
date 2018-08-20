@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="static/image/favicon.ico">
+
+    <title>POI Search Test</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/css/poi_search.css" rel="stylesheet">
+    <script src="https://api2.sktelecom.com/tmap/js?version=1&format=javascript&appKey=8b0d6fd6-7d53-4bd4-9dd8-d331f39c4430"></script>
+    
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="static/assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="static/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">POI Search Test</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/">Go Dashboard</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" style="overflow:scroll;">
+          <h5 align="center">Search Option</h5>
+              <form class="form-horizontal">
+                  <div class="form-group">
+                      <div class="col-sm-15">
+                          <input type="text" class="form-control" id="searchQuery" placeholder="Search..." value='{{ p["q"] }}' />
+                      </div>
+                  </div>
+                <div class="form-group">
+                  <label for="center">중심 위치</label>
+                  <select class="form-control" id="center">
+                      <option value="current">현재 중심좌표(X,Y)</option>
+                      <option value="n">직접입력(X,Y)</option>
+                      <option value="4571671,1352269">을지로 파인에비뉴(4571671,1352269)</option>
+                      <option value="4571282,1352295">서울 시청(4571282,1352295)</option>
+                      <option value="4575988,1346372">판교(4575988,1346372)</option>
+                      <option value="4646758,1266383">강남역(4646758,1266383)</option>
+                      <option value="4573215,1349291">서초 구청(4573215,1349291)</option>
+                      <option value="4573791,1350541">강남 구청(4573791,1350541)</option>
+                      <option value="4569785,1351895">신촌로터리(4569785,1351895)</option>
+                      <option value="4572678,1353130">성북 구청(4572678,1353130)</option>
+                      <option value="4568290,1352369">상암 월드컵경기장(4568290,1352369)</option>
+                      <option value="4572239,1350107">고속터미널(4572239,1350107)</option>
+                      <option value="4544142,1242869">수유리(4544142,1242869)</option>
+                      <option value="4576561,1351305">천호 현대백화점(4576561,1351305)</option>
+                      <option value="4570211,1348692">서울대학교(4570211,1348692)</option>
+                      <option value="4573311,1353074">고려대학교(4573311,1353074)</option>
+                      <option value="4569804,1352065">연세대학교(4569804,1352065)</option>
+                      <option value="4571965,1352955">성균관대학교(4571965,1352955)</option>
+                      <option value="4573587,1351978">한양대학교(4573587,1351978)</option>
+                      <option value="4564923,1352260">김포공항(4564923,1352260)</option>
+                      <option value="4552428,1348071">인천공항(4552428,1348071)</option>
+                      <option value="4574724,1350323">잠실 야구장(4574724,1350323)</option>
+                      <option value="4573183,1353835">미아 사거리(4573183,1353835)</option>
+                      <option value="4646758,1266383">부산 시청(4646758,1266383)</option>
+                      <option value="4650007,1265751">해운대(4650007,1265751)</option>
+                      <option value="4629745,1291253">대구 시청(4629745,1291253)</option>
+                      <option value="4629462,1291249">동성로(4629462,1291249)</option>
+                      <option value="4561463,1348283">인천 시청(4561463,1348283)</option>
+                      <option value="4629745,1291253">송도(4629745,1291253)</option>
+                      <option value="4576583,1347017">성남 시청(4576583,1347017)</option>
+                      <option value="4576116,1345415">정자사거리(4576116,1345415)</option>
+                      <option value="4585878,1308524">대전 시청(4585878,1308524)</option>
+                      <option value="4582646,1317223">세종시(4582646,1317223)</option>
+                      <option value="4573097,1341352">수원 시청(4573097,1341352)</option>
+                      <option value="4574036,1341095">삼성전자(4574036,1341095)</option>
+                      <option value="4655272,1279284">울산 시청(4655272,1279284)</option>
+                      <option value="4657296,1297393">포항(4657296,1297393)</option>
+                      <option value="4581197,1347354">광주 시청(4581197,1347354)</option>
+                      <option value="4571673,1271683">전남대학교(4571673,1271683)</option>
+                      <option value="4579782,1351283">하남 시청(4579782,1351283)</option>
+                      <option value="4578995,1352230">미사역(4578995,1352230)</option>
+                      <option value="4574858,1337257">오산 시청(4574858,1337257)</option>
+                      <option value="4605216,1344198">원주 시청(4605216,1344198)</option>
+                      <option value="4564991,1345558">시흥 시청(4564991,1345558)</option>
+                      <option value="4572424,1341750">경기도청(4572424,1341750)</option>
+                      <option value="4589773,1318746">충청북도청(4589773,1318746)</option>
+                      <option value="4560268,1319671">충청남도청(4560268,1319671)</option>
+                      <option value="4598365,1363745">강원도청(4598365,1363745)</option>
+                      <option value="4629655,1291966">경상북도청(4629655,1291966)</option>
+                      <option value="4632956,1268400">경상남도청(4632956,1268400)</option>
+                      <option value="4576051,1289444">전라북도청(4576051,1289444)</option>
+                      <option value="4552651,1253286">전라남도청(4552651,1253286)</option>
+                      <option value="4554473,1197056">서귀포 시청(4554473,1197056)</option>
+                  </select>
+                    <div id="center-form">
+                        <div class="well well-sm" id="cur_center"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="frame_1">테스트 프레임 선택</label>
+                    <div id="frame_input">
+                        <input type="text" class="form-control" style="width: 60px;" id="frame_nums" value="10" />
+                        <input type="text" class="form-control" style="width: 80px;" id="type" placeholder="type" />
+                    </div>
+                  <select class="form-control" id="frame_1">
+                    <option value="">Select frame 1</option>
+                    <option value="T_PRD">T map Search (상용)</option>
+                    <option value="T_DEV">T map Search (내재화)</option>
+                    <option value="T_ALLY">T map Search (Ally)</option>
+                    <!-- <option value="G">Google Search</option> -->
+                    <option value="K">Kakao Search</option>
+                    <option value="N">Naver Search</option>
+                  </select>
+                  <select class="form-control" id="frame_2">
+                    <option value="">Select frame 2</option>
+                    <option value="T_PRD">T map Search (상용)</option>
+                    <option value="T_DEV">T map Search (내재화)</option>
+                    <option value="T_ALLY">T map Search (Ally)</option>
+                    <!-- <option value="G">Google Search</option> -->
+                    <option value="K">Kakao Search</option>
+                    <option value="N">Naver Search</option>
+                  </select>
+                  <select class="form-control" id="frame_3">
+                    <option value="">Select frame 3</option>
+                    <option value="T_PRD">T map Search (상용)</option>
+                    <option value="T_DEV">T map Search (내재화)</option>
+                    <option value="T_ALLY">T map Search (Ally)</option>
+                    <!-- <option value="G">Google Search</option> -->
+                    <option value="K">Kakao Search</option>
+                    <option value="N">Naver Search</option>
+                  </select>
+                </div>
+                  <div class="form-group">
+                      <div id="search_option">
+                      <input type="radio" name="sel_option" value="normal" /> normal
+                      <input type="radio" name="sel_option" checked="checked" value="debug"> debug
+                     </div>
+                      <p class="text-center">
+                      <input type="button" class="btn btn-danger" value="Search" id="searchButton" />
+                      </p>
+                  </div>
+              </form>
+            <div id="tab" style="width:220px;display:inline-block;vertical-align: top;">
+                <font size="3" color="blue"><b>QA</b></font> (<a href="{{ qa['url'] }}" target="_blank"> go QA_API <a/>)
+                <div id="tab_3_sear" style="height:1200px;">
+                    <div class="table-responsive" style="width:400px; ">
+                        <table class="table table-hover" style="width:220px; font-size:11px;">
+                            <tbody>
+                            {<br>
+                            {% for q in qa.keys() %}
+                                {% if q == "result" %}
+                                "{{ q }}" : {<br>
+                                    {% for r in qa[q].keys() %}
+                                        "{{ r }}" :
+                                        {% if r == "calls" %}
+                                        [ <br>
+                                            {% for e in qa[q][r][0].keys() %}
+                                                {% if e == "region" and qa[q][r][0][e] != None %}
+                                                    "{{ e }}" : { <br>
+                                                    {% for temp in qa[q][r][0][e].keys() %}
+                                                        {% if temp == "info" %}
+                                                            {% for m in qa[q][r][0][e][temp][0].keys() %}
+                                                                "{{ m }}" : "{{ qa[q][r][0][e][temp][0][m] }}",<br>
+                                                            {% end %}
+                                                        {% else %}
+                                                            "{{ temp }}" : "{{ qa[q][r][0][e][temp] }}", <br>
+                                                        {% end %}
+                                                    {% end %}
+                                                    }, <br>
+                                                {% elif e == "query" %}
+                                                    "{{ e }}" : { <br>
+                                                    {% for temp in qa[q][r][0][e].keys() %}
+                                                        {% if temp == "biz_region" %}
+                                                        "{{ temp }}" : {<br>
+                                                            {% for k in qa[q][r][0][e][temp].keys() %}
+                                                                "{{ k }}" : "{{ qa[q][r][0][e][temp][k] }}" <br>
+                                                            {% end %}
+                                                        }, <br>
+                                                        {% else %}
+                                                        "{{ temp }}" : {{ qa[q][r][0][e][temp] }}, <br>
+                                                        {% end %}
+                                                    {% end %}
+                                                {% elif e == "pattern" %}
+                                                    "{{ e }}" : { <br>
+                                                    {% for temp in qa[q][r][0][e].keys() %}
+                                                        "{{ temp }}" : "{{ qa[q][r][0][e][temp] }}", <br>
+                                                    {% end %}
+                                                    }, <br>
+                                                {% elif e == "call_score" %}
+
+                                                {% else %}
+                                                "{{ e }}" : "{{ qa[q][r][0][e] }}", <br>
+                                                {% end %}
+                                            {% end %}
+                                        ],
+                                        {% else %}
+                                            "{{ qa[q][r] }}",
+                                        {% end %}
+                                        <br>
+                                    {% end %}
+                                    },<br>
+                                {% else %}
+                                "{{ q }}" : "{{ qa[q] }}",<br>
+                                {% end %}
+                            {% end %}
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="tab_frame" style="display:none;">
+                    <iframe src="{{ qa['url'] }}" frameborder="0" width="400" height="1200" marginwidth="0" marginheight="0" scrolling="yes">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+              <h1 class="page-header">&nbsp;</h1>
+
+                <div id="result">
+                    <div id="tab_1" style="width:400px;height:1200px;display:inline-block;vertical-align: top;">
+                        <font size="3" color="blue"><b>{{ r1['frame_name'] }}</b></font> (<a href="{{ r1['search_api'] }}" target="_blank"> go SEARCH_API <a/>)
+                        <div id="tab_1_search" style="overflow:scroll;height:1200px;">
+                            <div id="map_div"></div>
+                            <div class="table-responsive" style="width:400px; ">
+                                <table class="table table-hover" style="width:400px; font-size:11px;">
+                                  <tbody>
+                                    {% for document in r1["documents"] %}
+                                    <tr id="frame1_tr" name="window.open('http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','')">
+                                      <td style="width:10px">{{ document["idx"] }}.</td>
+                                      <td id="frame1_td"><b>{{ document["name_org"] }} {{ document["place_name"] }}</b> [{{ document["poi_id"] }} | {{ document["pkey"] }}]<br>
+                                          {{ document["address"] }} | {{ document["disDistance"] }} <br>
+                                          {{ document["disPhone"] }} | {{ document["disCate"] }} <br>
+
+                                          {% if p["frame_1"] == "T_PRD" %}
+                                            name_data : {{ document["name_data"] }} | <br>
+                                            priority : {{ document["priority"] }} | park_yn : {{ document["park_yn"] }} | premium_gas_yn : {{ document["premium_gas_yn"] }} | Quality : {{ document["Quality"] }} <br>
+                                            lon : {{ document["nav_wgs84_lon"] }} | lat : {{ document["nav_wgs84_lat"] }}
+                                          {% elif p["frame_1"] == "T_ALLY" or  p["frame_1"] == "T_DEV"%}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                                <br>
+                                            {% end %}
+                                          {% elif p["frame_1"] == "T_DEV" %}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                            {% end %}
+                                          {% end %}
+                                      </td>
+                                    </tr>
+                                    {% end %}
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+                         <div id="tab_1_frame" style="display:none;">
+                            <iframe src="{{ r1['url'] }}" frameborder="0" width="400" height="1200" marginwidth="0" marginheight="0" scrolling="yes">
+                            </iframe>
+                        </div>
+
+                    </div>
+                    <div id="tab_2" style="width:400px;display:inline-block;vertical-align: top;">
+                        <font size="3" color="blue"><b>{{ r2['frame_name'] }}</b></font> (<a href="{{ r2['search_api'] }}" target="_blank"> go SEARCH_API <a/>)
+                        <div id="tab_2_search" style="overflow:scroll;height:1200px;">
+                             <div id="map_div2"></div>
+                             <div class="table-responsive" style="width:400px">
+                                <table class="table table-hover" style="width:400px; font-size:11px;">
+
+                                  <tbody>
+                                    {% for document in r2["documents"] %}
+                                    <tr id="frame2_tr" onclick="window.open('http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','')">
+                                      <td style="width:10px">{{ document["idx"] }}.</td>
+                                      <td id="frame2_td"><b>{{ document["name_org"] }} {{ document["place_name"] }}</b> [{{ document["poi_id"] }} | {{ document["pkey"] }}]<br>
+                                       {{ document["address"] }} | {{ document["disDistance"] }} <br>
+                                          {{ document["disPhone"] }} | {{ document["disCate"] }} <br>
+                                          {% if p["frame_2"] == "T_PRD" %}
+                                            name_data : {{ document["name_data"] }} | <br>
+                                            priority : {{ document["priority"] }} | park_yn : {{ document["park_yn"] }} | premium_gas_yn : {{ document["premium_gas_yn"] }} | Quality : {{ document["Quality"] }} <br>
+                                            lon : {{ document["nav_wgs84_lon"] }} | lat : {{ document["nav_wgs84_lat"] }}
+                                          {% elif p["frame_2"] == "T_ALLY" or  p["frame_2"] == "T_DEV" %}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                                <br>
+                                            {% end %}
+                                           {% elif p["frame_2"] == "T_DEV" %}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                            {% end %}
+                                          {% end %}
+                                      </td>
+                                    </tr>
+                                    {% end %}
+
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+                        <div id="tab_2_frame" style="display:none;">
+                            <iframe src="{{ r2['url'] }}" frameborder="0" width="400" height="1200" marginwidth="0" marginheight="0" scrolling="yes">
+                            </iframe>
+                        </div>
+
+                    </div>
+                    <div id="tab_3" style="width:400px;display:inline-block;vertical-align: top;">
+                        <font size="3" color="blue"><b>{{ r3['frame_name'] }}</b></font> (<a href="{{ r3['search_api'] }}" target="_blank"> go SEARCH_API <a/>)
+                        <div id="tab_3_search" style="overflow:scroll;height:1200px;">
+                            <div id="map_div3"></div>
+                             <div class="table-responsive" style="width:400px">
+                                <table class="table table-hover" style="width:400px; font-size:11px;">
+
+                                  <tbody>
+                                    {% for document in r3["documents"] %}
+                                    <tr id="frame3_tr" onclick="window.open('http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','http://d-tsch-os02:7777/poi/search?docids={{ document["pkey"] }}','')">
+                                      <td style="width:10px">{{ document["idx"] }}.</td>
+                                      <td id="frame3_td"><b>{{ document["name_org"] }} {{ document["place_name"] }}</b> [{{ document["poi_id"] }} | {{ document["pkey"] }}]<br>
+                                       {{ document["address"] }} | {{ document["disDistance"] }} <br>
+                                          {{ document["disPhone"] }} | {{ document["disCate"] }} <br>
+                                          {% if p["frame_3"] == "T_PRD" %}
+                                            name_data : {{ document["name_data"] }} | <br>
+                                            priority : {{ document["priority"] }} | park_yn : {{ document["park_yn"] }} | premium_gas_yn : {{ document["premium_gas_yn"] }} | Quality : {{ document["Quality"] }} <br>
+                                            lon : {{ document["nav_wgs84_lon"] }} | lat : {{ document["nav_wgs84_lat"] }}
+                                          {% elif p["frame_3"] == "T_ALLY"  or  p["frame_3"] == "T_DEV"%}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                                <br>
+                                            {% end %}
+                                          {% elif p["frame_3"] == "T_DEV" %}
+                                            {% if p["search_type"] == "normal" %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                distance : {{ document["fields"]["debugging_fields"][0]["distance"] }} <br>
+                                            {% else %}
+                                                merged_name_alias : {{ document["merged_name_alias"] }} | <br>
+                                                priority : {{ document["priority"] }} | valet_park_yn : {{ document["valet_park_yn"] }} | landmark_yn : {{ document["landmark_yn"] }} | park_yn : {{ document["park_yn"] }} | <br>
+                                                premium_gas_yn : {{ document["premium_gas_yn"] }} | <br>
+                                                lon : {{ document["merged_wgs84_lon"] }} | lat : {{ document["merged_wgs84_lat"] }} | <br>
+                                                {% for debug in document["fields"]["debugging_fields"][0].keys() %}
+                                                    {{ debug }} : {{ document["fields"]["debugging_fields"][0][debug] }} |
+                                                {% end %}
+                                            {% end %}
+                                          {% end %}
+                                      </td>
+
+                                    </tr>
+                                    {% end %}
+
+                                  </tbody>
+                                </table>
+                              </div>
+                        </div>
+                        <div id="tab_3_frame" style="display:none;">
+                            <object data="{{ r3['url'] }}" frameborder="0" width="400" height="1200" marginwidth="0" marginheight="0" scrolling="yes" allowFullScreen>
+                            </object>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="static/dist/js/bootstrap.min.js"></script>
+    <script src="static/assets/js/docs.min.js"></script>
+     <script src="static/js/poi_search2.js?ver=3"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="static/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+
+
+
+      <script>
+          function init(){
+              $("#frame_1").val("{{ p['frame_1'] }}").prop("selected", true);
+              $("#frame_2").val("{{ p['frame_2'] }}").prop("selected", true);
+              $("#frame_3").val("{{ p['frame_3'] }}").prop("selected", true);
+
+              var frame1Type = "{{ p['frame_1'] }}"
+              var frame2Type = "{{ p['frame_2'] }}"
+              var frame3Type = "{{ p['frame_3'] }}"
+
+              if ("{{ r3["frame_name"] }}" === "" ) {
+                  $("#tab_3").empty();
+              } else if ({{ r3["total_count"] }} === 0) {
+                  $("#tab_3").empty();
+              }
+
+              var displayTypeR1 = "{{ r1['result_type'] }}"
+              var displayTypeR2 = "{{ r2['result_type'] }}"
+              var displayTypeR3 = "{{ r3['result_type'] }}"
+
+              if (displayTypeR1 == 'frame') {
+                  $("#tab_1_frame").css({"display": "block"});
+                  $("#tab_1_search").css({"display": "none"});
+
+              }
+              if (displayTypeR2 == 'frame') {
+                  $("#tab_2_frame").css({"display": "block"});
+                  $("#tab_2_search").css({"display": "none"});
+
+              }
+              if (displayTypeR3 == 'frame') {
+                  $("#tab_3_frame").css({"display": "block"});
+                  $("#tab_3_search").css({"display": "none"});
+              }
+          }
+
+
+
+
+        // tab-1 map 생성
+        // Tmap.map을 이용하여, 지도가 들어갈 div, 넓이, 높이를 설정합니다.
+        map = new Tmap.Map({
+            div : 'map_div',// map을 표시해줄 div
+            width : "400px",// map의 width 설정
+            height : "400px",// map의 height 설정
+            });
+            map.setCenter(new Tmap.LonLat("126.986072", "37.570028").transform("EPSG:4326", "EPSG:3857"), 15);// 설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 중심점을 설정합니다.
+
+
+        var markerLayer = new Tmap.Layer.Markers();//마커 레이어 생성
+        map.addLayer(markerLayer);//map에 마커 레이어 추가
+        var size = new Tmap.Size(24, 38);//아이콘 크기 설정
+        var offset = new Tmap.Pixel(-(size.w / 2), -(size.h));//아이콘 중심점 설정
+        var maker;
+        var popup;
+        var innerHtml = "";
+
+        {% for document in r1["documents"] %}
+            var name = "{{document['name_org']}}";
+            var index = "{{document['idx']}}";
+            var id = "{{document['pkey']}}";
+            var content ="<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>"+
+            "<div style='font-size: 12px; line-height: 15px;'>"+
+                "<span style='display: inline-block; width: 14px; height: 14px; background-image: url(/resources/images/common/icon_blet.png); vertical-align: middle; margin-right: 5px;'></span>"+name+
+            "</div>"+
+         "</div>";
+            innerHtml+="<div><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_"+index+".png' style='vertical-align:middle'/><span>"+name+"</span></div>";
+            var lon = "{{document['nav_wgs84_lon']}}";
+            var lat = "{{document['nav_wgs84_lat']}}";
+
+
+            var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_'+index+'.png',size, offset);//마커 아이콘 설정
+            var lonlat = new Tmap.LonLat(lon, lat).transform("EPSG:4326", "EPSG:3857");//좌표설정
+
+            marker = new Tmap.Marker(lonlat, icon);//마커생성
+            markerLayer.addMarker(marker);//마커레이어에 마커 추가
+            console.log(markerLayer);
+
+            popup = new Tmap.Popup("p1", lonlat, new Tmap.Size(120, 50), content, false);//마우스 오버 팝업
+            popup.autoSize = true;//Contents 내용에 맞게 Popup창의 크기를 재조정할지 여부를 결정
+            map.addPopup(popup);//map에 popup추가
+            popup.hide();//마커에 마우스가 오버되기 전까진 popup을 숨김
+            //마커 이벤트등록
+            marker.events.register("mouseover", popup, onOverMarker);
+            //마커에 마우스가 오버되었을 때 발생하는 이벤트 함수입니다.
+            function onOverMarker(evt) {
+              this.show(); //마커에 마우스가 오버되었을 때 팝업이 보입니다.
+            }
+
+            //마커 이벤트 등록
+            marker.events.register("mouseout", popup, onOutMarker);
+
+            //마커에 마우스가 아웃되었을 때 발생하는 함수입니다.
+            function onOutMarker(evt) {
+              this.hide(); //마커에 마우스가 없을땐 팝업이 숨겨집니다.
+            }
+        {% end %}
+
+        map.zoomToExtent(markerLayer.getDataExtent());//마커레이어의 영역에 맞게 map을 zoom합니다.
+
+
+        // Tab-2 지도 생성
+        map2 = new Tmap.Map({
+            div : 'map_div2',// map을 표시해줄 div
+            width : "400px",// map의 width 설정
+            height : "400px",// map의 height 설정
+            });
+            map2.setCenter(new Tmap.LonLat("126.986072", "37.570028").transform("EPSG:4326", "EPSG:3857"), 15);// 설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 중심점을 설정합니다.
+
+        var markerLayer = new Tmap.Layer.Markers();//마커 레이어 생성
+        map2.addLayer(markerLayer);//map에 마커 레이어 추가
+        var size = new Tmap.Size(24, 38);//아이콘 크기 설정
+        var offset = new Tmap.Pixel(-(size.w / 2), -(size.h));//아이콘 중심점 설정
+        var maker;
+        var popup;
+        var innerHtml = "";
+
+        {% for document in r2["documents"] %}
+            var name = "{{document['name_org']}}";
+            var index = "{{document['idx']}}";
+            var id = "{{document['pkey']}}";
+            var content ="<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>"+
+            "<div style='font-size: 12px; line-height: 15px;'>"+
+                "<span style='display: inline-block; width: 14px; height: 14px; background-image: url(/resources/images/common/icon_blet.png); vertical-align: middle; margin-right: 5px;'></span>"+name+
+            "</div>"+
+         "</div>";
+            innerHtml+="<div><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_"+index+".png' style='vertical-align:middle'/><span>"+name+"</span></div>";
+            var lon = "{{document['nav_wgs84_lon']}}";
+            var lat = "{{document['nav_wgs84_lat']}}";
+
+
+            var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_'+index+'.png',size, offset);//마커 아이콘 설정
+            var lonlat = new Tmap.LonLat(lon, lat).transform("EPSG:4326", "EPSG:3857");//좌표설정
+
+            marker = new Tmap.Marker(lonlat, icon);//마커생성
+            markerLayer.addMarker(marker);//마커레이어에 마커 추가
+            console.log(markerLayer);
+
+            popup = new Tmap.Popup("p2", lonlat, new Tmap.Size(120, 50), content, false);//마우스 오버 팝업
+            popup.autoSize = true;//Contents 내용에 맞게 Popup창의 크기를 재조정할지 여부를 결정
+            map2.addPopup(popup);//map에 popup추가
+            popup.hide();//마커에 마우스가 오버되기 전까진 popup을 숨김
+            //마커 이벤트등록
+            marker.events.register("mouseover", popup, onOverMarker);
+            //마커에 마우스가 오버되었을 때 발생하는 이벤트 함수입니다.
+            function onOverMarker(evt) {
+              this.show(); //마커에 마우스가 오버되었을 때 팝업이 보입니다.
+            }
+
+            //마커 이벤트 등록
+            marker.events.register("mouseout", popup, onOutMarker);
+
+            //마커에 마우스가 아웃되었을 때 발생하는 함수입니다.
+            function onOutMarker(evt) {
+              this.hide(); //마커에 마우스가 없을땐 팝업이 숨겨집니다.
+            }
+        {% end %}
+
+        map2.zoomToExtent(markerLayer.getDataExtent());//마커레이어의 영역에 맞게 map을 zoom합니다.
+
+
+        // Tab-3 지도 생성
+        map3 = new Tmap.Map({
+            div : 'map_div3',// map을 표시해줄 div
+            width : "400px",// map의 width 설정
+            height : "400px",// map의 height 설정
+            });
+            map3.setCenter(new Tmap.LonLat("126.986072", "37.570028").transform("EPSG:4326", "EPSG:3857"), 15);// 설정한 좌표를 "EPSG:3857"로 좌표변환한 좌표값으로 중심점을 설정합니다.
+
+        var markerLayer = new Tmap.Layer.Markers();//마커 레이어 생성
+        map3.addLayer(markerLayer);//map에 마커 레이어 추가
+        var size = new Tmap.Size(24, 38);//아이콘 크기 설정
+        var offset = new Tmap.Pixel(-(size.w / 2), -(size.h));//아이콘 중심점 설정
+        var maker;
+        var popup;
+        var innerHtml = "";
+
+        {% for document in r3["documents"] %}
+            var name = "{{document['name_org']}}";
+            var index = "{{document['idx']}}";
+            var id = "{{document['pkey']}}";
+            var content ="<div style=' position: relative; border-bottom: 1px solid #dcdcdc; line-height: 18px; padding: 0 35px 2px 0;'>"+
+            "<div style='font-size: 12px; line-height: 15px;'>"+
+                "<span style='display: inline-block; width: 14px; height: 14px; background-image: url(/resources/images/common/icon_blet.png); vertical-align: middle; margin-right: 5px;'></span>"+name+
+            "</div>"+
+         "</div>";
+            innerHtml+="<div><img src='http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_"+index+".png' style='vertical-align:middle'/><span>"+name+"</span></div>";
+            var lon = "{{document['nav_wgs84_lon']}}";
+            var lat = "{{document['nav_wgs84_lat']}}";
+
+
+            var icon = new Tmap.Icon('http://tmapapis.sktelecom.com/upload/tmap/marker/pin_b_m_'+index+'.png',size, offset);//마커 아이콘 설정
+            var lonlat = new Tmap.LonLat(lon, lat).transform("EPSG:4326", "EPSG:3857");//좌표설정
+
+            marker = new Tmap.Marker(lonlat, icon);//마커생성
+            markerLayer.addMarker(marker);//마커레이어에 마커 추가
+
+            popup = new Tmap.Popup("p3", lonlat, new Tmap.Size(120, 50), content, false);//마우스 오버 팝업
+            popup.autoSize = true;//Contents 내용에 맞게 Popup창의 크기를 재조정할지 여부를 결정
+            map3.addPopup(popup);//map에 popup추가
+            popup.hide();//마커에 마우스가 오버되기 전까진 popup을 숨김
+            //마커 이벤트등록
+            marker.events.register("mouseover", popup, onOverMarker);
+            //마커에 마우스가 오버되었을 때 발생하는 이벤트 함수입니다.
+            function onOverMarker(evt) {
+              this.show(); //마커에 마우스가 오버되었을 때 팝업이 보입니다.
+            }
+
+            //마커 이벤트 등록
+            marker.events.register("mouseout", popup, onOutMarker);
+
+            //마커에 마우스가 아웃되었을 때 발생하는 함수입니다.
+            function onOutMarker(evt) {
+              this.hide(); //마커에 마우스가 없을땐 팝업이 숨겨집니다.
+            }
+        {% end %}
+
+        map3.zoomToExtent(markerLayer.getDataExtent());//마커레이어의 영역에 맞게 map을 zoom합니다.
+
+        init();
+
+    </script>
+
+
+</html>

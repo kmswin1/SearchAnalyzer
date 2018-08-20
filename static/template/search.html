@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>Search Manager v0.0.1</title>
+		<link rel="shortcut icon" href="static/image/favicon.ico">
+		<link rel="stylesheet" href="static/css/main.css">
+		<link rel="stylesheet" href="static/css/bootstrap.css">
+		{% include "nav.html" %}
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-md-6 col-md-offset-3 col-lg-offset-0">
+					<div class="well">
+						<h3 align="center">Search Filter</h3>
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Query</label>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="searchQuery" value='{{ o["query"] }}' />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Song ID</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" id="songIdQuery" value='{{ o["song_id"] }}' />
+								</div>
+							</div>
+
+							<!--div class="form-group">
+								<label class="col-sm-2 control-label">Service Type</label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline">
+ 										<input type="checkbox" name="serviceType" value="album"> album
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="serviceType" value="artist"> artist
+									</label>
+									<label class="checkbox-inline">
+										<input type="checkbox" name="serviceType" value="song"> song
+									</label>
+								</div>
+							</div-->
+							<div class="form-group">
+								<label class="col-sm-2 control-label">NLU 사용 여부</label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline">
+ 										<input type="checkbox" name="nlu" value="y"> 사용&nbsp;
+									</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">중복 사용 여부</label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline">
+ 										<input type="checkbox" name="dup" value="y"> 사용&nbsp;
+									</label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">엔진 타입</label>
+								<div class="col-sm-6">
+									<div class="radio">
+										<label>
+											<input type="radio" name="engineType" id="real" value="n">구버전
+										</label>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										<label>
+											<input type="radio" name="engineType" id="real" value="y">신규버전
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<!--div class="form-group">
+								<label class="col-sm-2 control-label">Class Name</label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0001"> 기독교음악&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0002"> 기타&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0003"> 어린이음악&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0004"> 월드뮤직&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0005"> 종교음악&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0006"> 한국대중음악&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0007"> 한국전통음악&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0008"> Classic</label>
+								</div>
+								<label class="col-sm-2 control-label"></label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0009"> C-Pop&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0010"> Jazz&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0011"> J-Pop&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0012"> New Age&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0013"> OST&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0014"> Pop&nbsp;&nbsp;</label>
+									<label class="checkbox-inline"><input type="checkbox" name="classId" value="CC0015"> 인디</label>
+								</div>
+							</div-->
+
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Ranking</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" rows="3" cols="90%" id="ranking">{{ o["ranking"] }}</textarea>
+								</div>
+							</div>
+
+							<!--div class="form-group">
+								<label class="col-sm-2 control-label">중복 제거 (Wait...)</label>
+								<div class="col-sm-10">
+									<label class="checkbox-inline"><input type="checkbox" name="dupYN" value="y"> 제거함</label>
+								</div>
+							</div-->
+
+							<!--div class="form-group">
+								<label class="col-sm-2 control-label">Condition</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" id="searchCondition" rows="2"></textarea>
+								</div>
+							</div-->
+
+							<div class="form-group">
+								<p class="text-center">
+									<!--input type="button" class="btn btn-danger" value="Search" onclick=javascript:search() /-->
+									<input type="button" class="btn btn-danger" value="Search" id="searchButton" />
+								</p>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<input type="hidden" id="engineTypeHidden" value={{o["real"]}} />
+			<input type="hidden" id="serviceTypeHidden" name="serviceTypeHidden" value={{o["service_type"]}} />
+			<input type="hidden" id="serviceStatusHidden" name="serviceStatusHidden" value={{o["service_status"]}} />
+			<input type="hidden" id="classIdHidden" name="classIdHidden" value={{o["class_id"]}} />
+			<input type="hidden" id="nluHidden" name="nluHidden" value={{o["nlu_yn"]}} />
+			<input type="hidden" id="dupHidden" name="dupHidden" value={{o["dup_yn"]}} />
+		</div>
+		<div class="container">
+			<hgroup class="mb20" id="query_pop2">
+				<div class="messagepop search_view_pop" id="query_pop">
+					<div class="form-group">
+						<p><a class="search_view_close" href="/">닫기</a></p>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-4 panel panel-success"><br>
+							<div class="panel-heading">
+								<h3 class="panel-title">ES Query</h3>
+							</div>
+							<div class="panel-body">
+								<pre><code>{{ o["es_query"] }}</code></pre>
+							</div>
+						</div>
+						<div class="col-sm-4 panel panel-primary"><br>
+							<div class="panel-heading">
+								<h3 class="panel-title">NLU Result</h3>
+							</div>
+							<div class="panel-body">
+								<pre><code>{{ o["nlu_result"] }}</code></pre>
+							</div>
+						</div>
+						<div class="col-sm-4 panel panel-info"><br>
+							<div class="panel-heading">
+								<h3 class="panel-title">Analyzer Query</h3>
+							</div>
+							<div class="panel-body">
+								<pre><code>{{ o["analyzer_result"] }}</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<h1><a target="_blank" href={{o["search_api"]}}>Search Results</a> (검색방법: {{ o["search_type"] }})</h1>
+				<h4><font color="red">{{ o["error_log"] }}</font></h4>
+				<h4>NLU Query: {{o["nlu_query"]}}</h4>
+				<h4><a id="search_view">Query 분석 결과 보기</a></h4>
+				<h2 class="lead">
+					결과 건수: <strong class="text-danger">{{o["count"]}}건</strong> (전체: {{o["total_count"]}}건 / 중복: {{o["dup_count"]}}건)
+					<br>
+					Query:  <strong class="text-danger">{{o["query"]}}</strong>
+				</h2>
+			</hgroup>
+
+			{% for document in o["documents"] %}
+				<section class="col-xs-12 col-sm-6 col-md-12">
+					<article class="search-result row">
+						<div class="col-xs-12 col-sm-12 col-md-2">
+							<a href={{ document["album_url"] }} target=_blank title="" class="thumbnail"><img src="{{ document["img_path"] }}" alt="" width="120px"/></a>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-3">
+							<ul class="meta-search">
+								<li><i class="glyphicon glyphicon-user"></i> <span>song_id: {{ document["id"] }}</span></li>
+								<!--li><i class="glyphicon glyphicon-file"></i> <span>type: {{ document["type"] }}</span></li-->
+								<li><i class="glyphicon glyphicon-time"></i> <span>issue_date: {{ document["issue_date"] }}</span></li>
+								<li><i class="glyphicon glyphicon-tags"></i> <span>class_name: {{ document["class_name"] }}</span></li>
+								<li><i class="glyphicon glyphicon-piggy-bank"></i> <span>score: {{ document["score"] }}</span></li>
+								<li><i class="glyphicon glyphicon-lock"></i>
+									<span>explanation: <a idhref='#ex-layer{{document["idx"]}}' name="explanation">펼쳐보기</a></span>
+									<div id='ex-layer{{document["idx"]}}' class="pop-layer">
+										<div class="pop-container">
+											<div class="pop-conts">
+												<div class="btn-r">
+													<a href="#" class="btn-layerClose">닫기</a>
+												</div>
+
+												<p class="ctxt mb20"><pre><code>{{ document["explanation"] }}</code></pre></p>
+												<div class="btn-r">
+													<a href="#" class="btn-layerClose">닫기</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+							<h3><a href="http://www.melon.com/webplayer/mini.htm?contensType=S&contsIds={{document["id"]}}" target=_blank title="">{{ document["name"] }}</a></h3>
+							<ul class="meta-search col-md-4">
+								<li>status: {{ document["status"] }}</li>
+								<!--li>song_id: {{ document["song_id"] }}</li-->
+								<li>album_name: {{ document["album_name"] }}</li>
+								<li>artist_name: {{ document["artist_name"] }}</li>
+								<li>album_id: {{ document["album_id"] }}</li>
+								<li>artist_ids: {{ document["artist_ids"] }}</li>
+							</ul>
+							<ul class="meta-search col-md-4">
+								<li>duration_time: {{ document["duration_time"] }}</li>
+								<li>song_count: {{ document["album_song_count"] }}</li>
+								<li>disk_count: {{ document["album_disk_count"] }}</li>
+								<li>track_idx: {{ document["track_idx"] }}</li>
+								<li>class_id: {{ document["class_id"] }}</li>
+							</ul>
+							<ul class="meta-search col-md-4">
+								<li>artist_quality: {{ document["artist_quality"] }}</li>
+								<li>song_quality: {{ document["song_quality"] }}</li>
+								<li>query_quality: {{ document["query_quality"] }}</li>
+								<!--li>group_yn: {{ document["group_yn"] }}</li>
+								<li>country: {{ document["country"] }}</li-->
+							</ul>
+
+						</div>
+						<span class="clearfix borda"></span>
+					</article>
+				</section>
+			{% end %}
+			<!--nav aria-label="Page navigation" class="text-center">
+ 				<ul class="pagination">
+  					<li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+					<li><a href="javascript:void(0)" name="page">1</a></li>
+					<li><a href="#" name="page">2</a></li>
+					<li><a href="#" name="page">3</a></li>
+					<li><a href="#" name="page">4</a></li>
+					<li><a href="#" name="page">5</a></li>
+					<li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+				</ul>
+			</nav-->
+		</div>
+		<script type="text/javascript" src="static/js/jquery-1.8.1.min.js"></script>
+		<script type="text/javascript" src="static/js/search.js"></script>
+	</body>
+</html>

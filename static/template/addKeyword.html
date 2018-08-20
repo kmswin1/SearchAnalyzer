@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="static/js/query_analyzer.js?ver=0"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+    </style>
+    <title>addKeyword</title>
+</head>
+<body>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="/query_analyzer" class="w3-bar-item w3-button w3-theme-l1">QueryAnalyzer</a>
+      <a href="/" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Go Dashboard</a>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/addHost">검색서버 호스트 관리</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/addKeyword">검색어 관리</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/getResult">검색결과 추출</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/compareResult">검색결과 비교</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/admin">관리</a>
+</nav>
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
+<div class="w3-main" style="margin-left:250px">
+
+  <div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">검색어 신규등록</h1>
+      <div class="form-group">
+        <label for="keywordFile">검색어 파일:</label>
+          <form id="keywordForm" action="/fileUpload" method="post" enctype="multipart/form-data" >
+              <input type="file" id="keywordFile" >
+          </form>
+      </div>
+      <div class="form-group">
+        <label for="keywordInfo">검색어 파일 설명:</label>
+        <input type="text" class="form-control" id="keywordInfo" placeholder="등록 될 검색 대한 간략한 설명을 기입해주세요.">
+      </div>
+    </div>
+      <div>
+        <button class="btn-lg" type="button" id="keywordSubmit" style="margin-left: 300px">검색어 등록</button>
+      </div>
+  </div>
+
+  <div class="w3-row">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">검색어 목록</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for keyword in keywords %}
+      <tr>
+          <td>{{ keyword["keywordinfo"] }} ({{ keyword["keywordname"] }})</td>
+          <td><button class="btn-sm" type="button" id="{{ keyword['id'] }}" onclick="delKeyword(this.id)">delete</button></td>
+      </tr>
+    {% end %}
+    </tbody>
+  </table>
+    </div>
+  </div>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="static/js/query_analyzer.js?ver=0"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+    html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif;}
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+    </style>
+    <title>admin</title>
+</head>
+<body>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-theme w3-top w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large w3-theme-l1" href="javascript:void(0)" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+    <a href="/query_analyzer" class="w3-bar-item w3-button w3-theme-l1">QueryAnalyzer</a>
+    <a href="/" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Go Dashboard</a>
+  </div>
+</div>
+<!-- Sidebar -->
+<nav class="w3-sidebar w3-bar-block w3-large w3-theme-l5 w3-animate-left" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large" title="Close Menu">
+    <i class="fa fa-remove"></i>
+  </a>
+  <h4 class="w3-bar-item"><b>Menu</b></h4>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/addHost">검색서버 호스트 관리</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/addKeyword">검색어 관리</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/getResult">검색결과 추출</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/compareResult">검색결과 비교</a>
+    <a class="w3-bar-item w3-button w3-hover-black" href="/admin">관리</a>
+</nav>
+<div class="w3-main" style="margin-left:250px">
+  <div class="w3-row w3-padding-64">
+
+  <div class="w3-row">
+    <div class="w3-twothird w3-container">
+      <h1 class="w3-text-teal">검수내역 관리</h1>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>작업이름</th>
+        <th>작업종류</th>
+        <th>인코딩</th>
+          <th>jsonPath</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    <tr id="{{ result['resultbody'] }}" onclick="openResult(this.id)">
+        <td>{{ result["resultname"] }}</td>
+        <td>{{ result["resulttype"] }}</td>
+        <td>{{ result["encoding"] }}</td>
+        <td>{{ result["jsonpath"] }}</td>
+        <td><button class="btn-sm" type="button" id="{{ result['id'] }}" onclick="delResult(this.id)">delete</button></td>
+    </tr>
+    {% end %}
+    </tbody>
+  </table>
+    </div>
+  </div>
+  </di>
+
+<!-- END MAIN -->
+</div>
+</body>
+</html>
