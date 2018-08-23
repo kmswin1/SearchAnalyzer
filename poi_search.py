@@ -11,6 +11,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.template as template
 import time
+import requests
 
 
 ENGINE_ACCOUNT = "poi"
@@ -435,10 +436,8 @@ class SearchHandler(tornado.web.RequestHandler):
             print traceback.format_exc()
             return {}
 
-
-
     def get(self, local_args={}, local=False):
-
+        lonlat = {"lon":"", "lat":""}
         self.set_header('X-FRAME-OPTIONS', 'SAMEORIGIN')
 
         params = self.params_init()
@@ -460,13 +459,23 @@ class SearchHandler(tornado.web.RequestHandler):
             arr = params["center"].split(",")
             params["x"] = arr[0]
             params["y"] = arr[1]
+            lon = params["x"]
+            lat = params["y"]
+            payload = {'appKey': '9b2ecdb3-9215-45cb-bd2b-dff4f24892cf', 'lon': lon, 'lat': lat, 'fromCoord': 'BESSEL',
+                       'toCoord': 'WGS84GEO'}
+            ret = requests.get('https://api2.sktelecom.com/tmap/geo/coordconvert', params=payload)
+            ret = ret.json()
+            lonlat["lon"] = ret["coordinate"]["lon"]
+            lonlat["lat"] = ret["coordinate"]["lat"]
+            print
+            lonlat
 
         if query:
             switcher = {
-                "T_PRD" : self.makeResultProd,
-                "T_DEV" : self.makeResultProd,
+                "T_PRD": self.makeResultProd,
+                "T_DEV": self.makeResultProd,
                 "T_ALLY": self.makeResultProd,
-                "G" : self.makeGoogleSearchFrame,
+                "G": self.makeGoogleSearchFrame,
                 "K": self.makeKakaoSearchFrame,
                 "N": self.makeNaverSearchFrame
             }
@@ -495,11 +504,10 @@ class SearchHandler(tornado.web.RequestHandler):
                 func3 = switcher.get(params["frame_3"], self.emptyFrame)
                 result_frame3 = func3(result_frame3, query)
             except:
-                print "result_frame is empty"
+                print
+                "result_frame is empty"
 
-
-
-        loader = template.Loader("%s/static/template"%PWD)
-        self.write(loader.load("poi_search.html").generate(r1=result_frame1, r2=result_frame2, r3=result_frame3, p=params, qa=qa))
+        loader = template.Loader("%s/static/template" % PWD)
+        self.write(loader.load("poi_search.html").generate(r1=result_frame1, r2=result_frame2, r3=result_frame3, p=params, qa=qa, lonlat=lonlat))
 
 
